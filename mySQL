@@ -1,0 +1,482 @@
+-- MariaDB dump 10.19-11.3.2-MariaDB, for  Win64 (x86_64)
+-- 
+-- Host: 127.0.0.1    Database: techtribe
+-- ------------------------------------------------------
+-- Server version	11.3.2-MariaDB
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `store`
+--
+
+DROP TABLE IF EXISTS `store`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `store` (
+  `store_id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(20) NOT NULL,
+  `registration_number` varchar(20) NOT NULL,
+  `email` varchar(50) NOT NULL,
+  `contact_number` varchar(10) NOT NULL,
+  `website` varchar(100) DEFAULT NULL,
+  `facebook_page` varchar(100) DEFAULT NULL,
+  `youtube_channel` varchar(100) DEFAULT NULL,
+  `status` tinyint(4) NOT NULL,
+  `created_by` tinyint(3) unsigned NOT NULL,
+  `created_date` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_by` tinyint(3) unsigned NOT NULL,
+  `updated_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`store_id`),
+  KEY `created_by` (`created_by`),
+  KEY `updated_by` (`updated_by`),
+  CONSTRAINT `store_ibfk_1` FOREIGN KEY (`created_by`) REFERENCES `system_user` (`user_id`),
+  CONSTRAINT `store_ibfk_2` FOREIGN KEY (`updated_by`) REFERENCES `system_user` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table store`
+--
+
+/*!40000 ALTER TABLE `store` DISABLE KEYS */;
+INSERT INTO `store` VALUES
+(1,'Bulacan Main','REG-001','123 Bulacan St., Bulacan, Philippines','bulacan.main@gmail.com','+639171234567','bulacanmain.com','bulacanmainFB','bulacanmainYT',0,1,'2024-05-18 03:08:39',2,'2024-05-18 03:09:39'),
+(2,'Cebu Branch','REG-002','416 Cebu St., Cebu City, Philippines','cebu.branch@gmail.com','+639181234567','ceubbranch.com','cebubranchFB','cebubranchYT',1,2,'2024-05-18 03:08:39',3,'2024-05-18 03:08:39'),
+(3,'Manila Branch','REG-003','989 Manila St., Manila City, Philippines','Manila.branch@gmail.com','+639191234567','manilabranch.com','manilabranchFB','manilabranchYT',1,3,'2024-05-18 03:08:39',4,'2024-05-18 03:08:39'),
+(4,'Antique Branch','REG-004','201 Antique Ave., Antique, Philippines','antique.branch@gmail.com','+639102234567','antiquebranch.com','antiquebranchFB','antiquebranchYT',1,4,'2024-05-18 03:08:39',1,'2024-05-18 03:08:39'),
+(5,'Cavite City Branch','REG-005','222 Cavite Blvd., Cavite City, Philippines','cavite.branch@gmail.com','+639112234567','cavitebranch.com','cavitebranchFB','cavitebranchYT',1,2,'2024-05-18 03:08:39',3,'2024-05-18 03:08:39');
+/*!40000 ALTER TABLE `store` ENABLE KEYS */;
+
+--
+-- Table structure for table `customer`
+--
+
+/*!40000 ALTER TABLE `customer` DISABLE KEYS */;
+INSERT INTO `customer` VALUES
+(1,1,'Jun Cruz','M','1980-05-14 16:00:00','juncruz@gmail.com','+639123456789','123','Main St.','Barangay 1','Manila','Metro Manila','Philippines',1000,1,'2024-05-18 03:31:44',2,'2024-05-18 03:31:44'),
+(2,2,'Jake Santos','F','1975-08-19 16:00:00','jakesantos@gmail.com','+639987654321','456','Second St.','Barangay 2','Quezon City','Metro Manila','Philippines',1100,2,'2024-05-18 03:31:44',3,'2024-05-18 03:31:44'),
+(3,3,'Anna Gonzales','M','1990-03-09 16:00:00','annagonzales@gmail.com','+639555555555','789','Third St.','Barangay 3','Pasig City','Metro Manila','Philippines',1200,3,'2024-05-18 03:31:44',4,'2024-05-18 03:31:44'),
+(4,4,'Karen Reyes','F','1988-11-24 16:00:00','karenreyes@gmail.com','+639666666666','1011','Fourth St.','Barangay 4','Makati City','Metro Manila','Philippines',1300,4,'2024-05-18 03:31:44',1,'2024-05-18 03:31:44'),
+(5,5,'Kole Lim','M','1972-06-04 16:00:00','kolelim@gmail.com','+639333333333','1213','Fifth St.','Barangay 5','Taguig City','Metro Manila','Philippines',1400,1,'2024-05-18 03:31:44',2,'2024-05-18 03:31:44');
+/*!40000 ALTER TABLE `customer` ENABLE KEYS */;
+
+--
+-- Table structure for table `delivery`
+--
+
+DROP TABLE IF EXISTS `delivery`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `delivery` (
+  `delivery_id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
+  `tnx_date` timestamp NOT NULL,
+  `supplier_id` tinyint(3) unsigned NOT NULL,
+  `delivery_number` varchar(10) DEFAULT NULL,
+  `status` tinyint(4) NOT NULL,
+  `created_by` tinyint(3) unsigned NOT NULL,
+  `created_date` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_by` tinyint(3) unsigned NOT NULL,
+  `updated_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`delivery_id`),
+  KEY `supplier_id` (`supplier_id`),
+  KEY `created_by` (`created_by`),
+  KEY `updated_by` (`updated_by`),
+  CONSTRAINT `delivery_ibfk_1` FOREIGN KEY (`supplier_id`) REFERENCES `supplier` (`supplier_id`),
+  CONSTRAINT `delivery_ibfk_2` FOREIGN KEY (`created_by`) REFERENCES `system_user` (`user_id`),
+  CONSTRAINT `delivery_ibfk_3` FOREIGN KEY (`updated_by`) REFERENCES `system_user` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `delivery`
+--
+
+/*!40000 ALTER TABLE `delivery` DISABLE KEYS */;
+INSERT INTO `delivery` VALUES
+(1,'2024-05-01 00:00:00',1,'DEL123',1,1,'2024-05-18 03:29:46',2,'2024-05-18 03:29:46'),
+(2,'2024-05-02 01:00:00',2,'DEL456',1,2,'2024-05-18 03:29:46',3,'2024-05-18 03:29:46'),
+(3,'2024-05-03 02:00:00',3,'DEL789',1,3,'2024-05-18 03:29:46',4,'2024-05-18 03:29:46'),
+(4,'2024-05-04 03:00:00',1,'DEL012',1,4,'2024-05-18 03:29:46',1,'2024-05-18 03:29:46'),
+(5,'2024-05-05 04:00:00',2,'DEL345',1,1,'2024-05-18 03:29:46',2,'2024-05-18 03:29:46'),
+(6,'2024-05-06 05:00:00',3,'DEL678',1,2,'2024-05-18 03:29:46',3,'2024-05-18 03:29:46'),
+(7,'2024-05-07 06:00:00',1,'DEL901',1,3,'2024-05-18 03:29:46',4,'2024-05-18 03:29:46'),
+(8,'2024-05-08 07:00:00',2,'DEL234',1,4,'2024-05-18 03:29:46',1,'2024-05-18 03:29:46'),
+(9,'2024-05-09 08:00:00',3,'DEL567',1,1,'2024-05-18 03:29:46',2,'2024-05-18 03:29:46'),
+(10,'2024-05-10 09:00:00',1,'DEL890',1,2,'2024-05-18 03:29:46',3,'2024-05-18 03:29:46');
+/*!40000 ALTER TABLE `delivery` ENABLE KEYS */;
+
+--
+-- Table structure for table `inventory`
+--
+
+DROP TABLE IF EXISTS `inventory`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `inventory` (
+  `inventory_id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
+  `product` int(11) NOT NULL,
+  `qty_in` int(11) NOT NULL,
+  `qty_out` int(11) NOT NULL,
+  `avrg_unit_cost` int(11) NOT NULL,
+  `created_by` tinyint(3) unsigned NOT NULL,
+  `created_date` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_by` tinyint(3) unsigned NOT NULL,
+  `updated_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`inventory_id`),
+  KEY `created_by` (`created_by`),
+  KEY `updated_by` (`updated_by`),
+  CONSTRAINT `inventory_ibfk_1` FOREIGN KEY (`created_by`) REFERENCES `system_user` (`user_id`),
+  CONSTRAINT `inventory_ibfk_2` FOREIGN KEY (`updated_by`) REFERENCES `system_user` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `inventory`
+--
+
+/*!40000 ALTER TABLE `inventory` DISABLE KEYS */;
+/*!40000 ALTER TABLE `inventory` ENABLE KEYS */;
+
+--
+-- Table structure for table `owner`
+--
+
+DROP TABLE IF EXISTS `owner`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `owner` (
+  `owner_id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
+  `prefix` varchar(15) DEFAULT NULL,
+  `first_name` varchar(30) NOT NULL,
+  `middle_name` varchar(30) DEFAULT NULL,
+  `last_name` varchar(30) NOT NULL,
+  `suffix` varchar(15) DEFAULT NULL,
+  `email` varchar(50) NOT NULL,
+  `contact_number` varchar(15) NOT NULL,
+  `status` tinyint(4) NOT NULL,
+  `created_by` tinyint(3) unsigned NOT NULL,
+  `created_date` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_by` tinyint(3) unsigned NOT NULL,
+  `updated_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`owner_id`),
+  KEY `created_by` (`created_by`),
+  KEY `updated_by` (`updated_by`),
+  CONSTRAINT `owner_ibfk_1` FOREIGN KEY (`created_by`) REFERENCES `system_user` (`user_id`),
+  CONSTRAINT `owner_ibfk_2` FOREIGN KEY (`updated_by`) REFERENCES `system_user` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `owner`
+--
+
+/*!40000 ALTER TABLE `owner` DISABLE KEYS */;
+INSERT INTO `owner` VALUES
+(1,'Ms.','Abi',NULL,'Kolera',NULL,'abi.kolera@gmail.com','+639647382947',0,1,'2024-05-17 13:15:00',1,'2024-05-17 13:15:41'),
+(2,'Mr.','Kev',NULL,'Kolera',NULL,'kev.kolera@gmail.com','+639463547689',1,1,'2024-05-17 13:15:00',1,'2024-05-17 13:15:00');
+/*!40000 ALTER TABLE `owner` ENABLE KEYS */;
+
+--
+-- Table structure for table `product`
+--
+
+DROP TABLE IF EXISTS `product`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `product` (
+  `product_id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
+  `raw_item_id` tinyint(3) unsigned NOT NULL,
+  `code` varchar(10) NOT NULL,
+  `name` varchar(30) NOT NULL,
+  `description` varchar(300) DEFAULT NULL,
+  `supplier_id` tinyint(3) unsigned NOT NULL,
+  `unit_cost` double NOT NULL,
+  `is_promo` varchar(1) NOT NULL,
+  `status` tinyint(4) NOT NULL,
+  `created_by` tinyint(3) unsigned NOT NULL,
+  `created_date` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_by` tinyint(3) unsigned NOT NULL,
+  `updated_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`product_id`),
+  KEY `created_by` (`created_by`),
+  KEY `updated_by` (`updated_by`),
+  KEY `raw_item_id` (`raw_item_id`),
+  KEY `supplier_id` (`supplier_id`),
+  CONSTRAINT `product_ibfk_1` FOREIGN KEY (`created_by`) REFERENCES `system_user` (`user_id`),
+  CONSTRAINT `product_ibfk_2` FOREIGN KEY (`updated_by`) REFERENCES `system_user` (`user_id`),
+  CONSTRAINT `product_ibfk_3` FOREIGN KEY (`raw_item_id`) REFERENCES `raw_item` (`raw_item_id`),
+  CONSTRAINT `product_ibfk_4` FOREIGN KEY (`supplier_id`) REFERENCES `supplier` (`supplier_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `product`
+--
+
+/*!40000 ALTER TABLE `product` DISABLE KEYS */;
+INSERT INTO `product` VALUES
+(1,1,'PROD1','Fresh Tuna','Premium quality fresh tuna.',1,250,'Y',1,1,'2024-05-18 03:28:11',2,'2024-05-18 03:28:11'),
+(2,2,'PROD2','Salmon Fillet','Fresh salmon fillet for pan-searing.',2,300,'Y',1,2,'2024-05-18 03:28:11',3,'2024-05-18 03:28:11'),
+(3,3,'PROD3','Shrimp','Large and succulent shrimp.',3,200,'N',1,3,'2024-05-18 03:28:11',4,'2024-05-18 03:28:11'),
+(4,4,'PROD4','Crab Legs','Delicious crab legs for seafood feasts.',1,350,'N',1,4,'2024-05-18 03:28:11',1,'2024-05-18 03:28:11'),
+(5,5,'PROD5','Lobster Tail','Juicy lobster tail for special occasions.',2,450,'Y',1,1,'2024-05-18 03:28:11',2,'2024-05-18 03:28:11'),
+(6,6,'PROD6','Scallops','Fresh scallops for searing or grilling.',3,280,'N',1,2,'2024-05-18 03:28:11',3,'2024-05-18 03:28:11'),
+(7,7,'PROD7','Oysters','Premium oysters for raw bar or grilling.',1,220,'N',1,3,'2024-05-18 03:28:11',4,'2024-05-18 03:28:11'),
+(8,8,'PROD8','Mussels','Fresh mussels for seafood pasta or steaming.',2,180,'Y',1,4,'2024-05-18 03:28:11',1,'2024-05-18 03:28:11'),
+(9,9,'PROD9','Swordfish Steak','Thick swordfish steak for grilling or broiling.',3,400,'N',1,1,'2024-05-18 03:28:11',2,'2024-05-18 03:28:11'),
+(10,10,'PROD10','Halibut Fillet','Flaky halibut fillet for baking or poaching.',1,320,'N',1,2,'2024-05-18 03:28:11',3,'2024-05-18 03:28:11'),
+(11,11,'PROD11','Sea Bass','Tender sea bass for elegant seafood dishes.',2,380,'Y',1,3,'2024-05-18 03:28:11',4,'2024-05-18 03:28:11'),
+(12,12,'PROD12','Yellowtail Sashimi','Fresh yellowtail sashimi for sushi lovers.',3,350,'N',1,4,'2024-05-18 03:28:11',1,'2024-05-18 03:28:11'),
+(13,13,'PROD13','Rockfish Fillet','Delicate rockfish fillet for various culinary creations.',1,240,'N',1,1,'2024-05-18 03:28:11',2,'2024-05-18 03:28:11'),
+(14,14,'PROD14','Trout Fillet','Flavorful trout fillet for pan-searing or baking.',2,280,'N',1,2,'2024-05-18 03:28:11',3,'2024-05-18 03:28:11'),
+(15,15,'PROD15','Salmon Roe','Exquisite salmon roe for sushi or garnishes.',3,380,'N',1,3,'2024-05-18 03:28:11',4,'2024-05-18 03:28:11'),
+(16,16,'PROD16','Caviar','Luxurious caviar for fine dining experiences.',1,800,'Y',1,4,'2024-05-18 03:28:11',1,'2024-05-18 03:28:11'),
+(17,17,'PROD17','Anchovies','Salted anchovies for flavoring Mediterranean dishes.',2,100,'N',1,1,'2024-05-18 03:28:11',2,'2024-05-18 03:28:11'),
+(18,18,'PROD18','Sardines','Canned sardines for quick and nutritious meals.',3,80,'N',1,2,'2024-05-18 03:28:11',3,'2024-05-18 03:28:11'),
+(19,19,'PROD19','Mackerel','Fresh mackerel for grilling or frying.',1,200,'N',1,3,'2024-05-18 03:28:11',4,'2024-05-18 03:28:11'),
+(20,20,'PROD20','Octopus','Tender octopus for exotic seafood dishes.',2,350,'N',1,4,'2024-05-18 03:28:11',1,'2024-05-18 03:28:11');
+/*!40000 ALTER TABLE `product` ENABLE KEYS */;
+
+--
+-- Table structure for table `purchase_order`
+--
+
+DROP TABLE IF EXISTS `purchase_order`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `purchase_order` (
+  `order_id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
+  `tnx_date` timestamp NOT NULL,
+  `supplier_id` tinyint(3) unsigned NOT NULL,
+  `po_number` varchar(20) DEFAULT NULL,
+  `status` tinyint(4) NOT NULL,
+  `created_by` tinyint(3) unsigned NOT NULL,
+  `created_date` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_by` tinyint(3) unsigned NOT NULL,
+  `updated_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`order_id`),
+  KEY `supplier_id` (`supplier_id`),
+  KEY `created_by` (`created_by`),
+  KEY `updated_by` (`updated_by`),
+  CONSTRAINT `purchase_order_ibfk_1` FOREIGN KEY (`supplier_id`) REFERENCES `supplier` (`supplier_id`),
+  CONSTRAINT `purchase_order_ibfk_2` FOREIGN KEY (`created_by`) REFERENCES `system_user` (`user_id`),
+  CONSTRAINT `purchase_order_ibfk_3` FOREIGN KEY (`updated_by`) REFERENCES `system_user` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `purchase_order`
+--
+
+/*!40000 ALTER TABLE `purchase_order` DISABLE KEYS */;
+INSERT INTO `purchase_order` VALUES
+(1,'2024-05-01 00:00:00',1,'PO123456',1,1,'2024-05-18 03:29:15',2,'2024-05-18 03:29:15'),
+(2,'2024-05-02 01:00:00',2,'PO789012',1,2,'2024-05-18 03:29:15',3,'2024-05-18 03:29:15'),
+(3,'2024-05-03 02:00:00',3,'PO345678',1,3,'2024-05-18 03:29:15',4,'2024-05-18 03:29:15'),
+(4,'2024-05-04 03:00:00',1,'PO901234',1,4,'2024-05-18 03:29:15',1,'2024-05-18 03:29:15'),
+(5,'2024-05-05 04:00:00',2,'PO567890',1,1,'2024-05-18 03:29:15',2,'2024-05-18 03:29:15'),
+(6,'2024-05-06 05:00:00',3,'PO123890',1,2,'2024-05-18 03:29:15',3,'2024-05-18 03:29:15'),
+(7,'2024-05-07 06:00:00',1,'PO456789',1,3,'2024-05-18 03:29:15',4,'2024-05-18 03:29:15'),
+(8,'2024-05-08 07:00:00',2,'PO890123',1,4,'2024-05-18 03:29:15',1,'2024-05-18 03:29:15'),
+(9,'2024-05-09 08:00:00',3,'PO234567',1,1,'2024-05-18 03:29:15',2,'2024-05-18 03:29:15'),
+(10,'2024-05-10 09:00:00',1,'PO678901',1,2,'2024-05-18 03:29:15',3,'2024-05-18 03:29:15');
+/*!40000 ALTER TABLE `purchase_order` ENABLE KEYS */;
+
+--
+-- Table structure for table `raw_item`
+--
+
+DROP TABLE IF EXISTS `raw_item`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `raw_item` (
+  `raw_item_id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
+  `code` varchar(10) NOT NULL,
+  `name` varchar(30) NOT NULL,
+  `description` varchar(300) DEFAULT NULL,
+  `is_for_sale` varchar(1) NOT NULL,
+  `status` tinyint(4) NOT NULL,
+  `created_by` tinyint(3) unsigned NOT NULL,
+  `created_date` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_by` tinyint(3) unsigned NOT NULL,
+  `updated_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`raw_item_id`),
+  KEY `created_by` (`created_by`),
+  KEY `updated_by` (`updated_by`),
+  CONSTRAINT `raw_item_ibfk_1` FOREIGN KEY (`created_by`) REFERENCES `system_user` (`user_id`),
+  CONSTRAINT `raw_item_ibfk_2` FOREIGN KEY (`updated_by`) REFERENCES `system_user` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=73 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `raw_item`
+--
+
+/*!40000 ALTER TABLE `raw_item` DISABLE KEYS */;
+INSERT INTO `raw_item` VALUES
+(1,'FISH01','Fresh Bangus','Fresh bangus sourced locally from Pangasinan.','N',0,1,'2024-05-18 03:19:10',2,'2024-05-18 03:19:10'),
+(2,'FISH02','Tilapia','Fresh tilapia from local farms.','N',0,2,'2024-05-18 03:19:10',3,'2024-05-18 03:19:10'),
+(3,'FISH03','Shrimp','Fresh shrimp from coastal areas.','N',0,3,'2024-05-18 03:19:10',4,'2024-05-18 03:19:10'),
+(4,'FISH04','Crab','Fresh crab caught from the sea.','N',0,4,'2024-05-18 03:19:10',1,'2024-05-18 03:19:10'),
+(5,'FISH05','Salmon','Imported salmon for special occasions.','Y',1,1,'2024-05-18 03:19:10',2,'2024-05-18 03:19:10'),
+(6,'FISH06','Squid','Fresh squid for cooking various dishes.','Y',1,2,'2024-05-18 03:19:10',3,'2024-05-18 03:19:10'),
+(7,'FISH07','Clams','Fresh clams for soups and stews.','Y',1,3,'2024-05-18 03:19:10',4,'2024-05-18 03:19:10'),
+(8,'FISH08','Oysters','Fresh oysters for grilling or steaming.','Y',1,4,'2024-05-18 03:19:10',1,'2024-05-18 03:19:10'),
+(9,'FISH09','Mussels','Fresh mussels for seafood pasta.','Y',1,1,'2024-05-18 03:19:10',2,'2024-05-18 03:19:10'),
+(10,'FISH10','Lobster','Imported lobster for luxurious dining.','Y',1,2,'2024-05-18 03:19:10',3,'2024-05-18 03:19:10'),
+(11,'FISH11','Scallops','Fresh scallops for gourmet dishes.','Y',1,3,'2024-05-18 03:19:10',4,'2024-05-18 03:19:10'),
+(12,'FISH12','Sardines','Canned sardines for quick meals.','Y',1,4,'2024-05-18 03:19:10',1,'2024-05-18 03:19:10'),
+(13,'FISH13','Tuna','Fresh tuna for sushi and sashimi.','Y',1,1,'2024-05-18 03:19:10',2,'2024-05-18 03:19:10'),
+(14,'FISH14','Octopus','Fresh octopus for exotic cuisine.','Y',1,2,'2024-05-18 03:19:10',3,'2024-05-18 03:19:10'),
+(15,'FISH15','Anchovies','Salted anchovies for flavoring.','Y',1,3,'2024-05-18 03:19:10',4,'2024-05-18 03:19:10'),
+(16,'FISH16','Mackerel','Fresh mackerel for grilling or frying.','Y',1,4,'2024-05-18 03:19:10',1,'2024-05-18 03:19:10'),
+(17,'FISH17','Trout','Fresh trout for pan-searing or baking.','Y',1,1,'2024-05-18 03:19:10',2,'2024-05-18 03:19:10'),
+(18,'FISH18','Haddock','Fresh haddock for fish and chips.','Y',1,2,'2024-05-18 03:19:10',3,'2024-05-18 03:19:10'),
+(19,'FISH19','Cod','Fresh cod for fish tacos or fish cakes.','Y',1,3,'2024-05-18 03:19:10',4,'2024-05-18 03:19:10'),
+(20,'FISH20','Herring','Salted herring for traditional dishes.','Y',1,4,'2024-05-18 03:19:10',1,'2024-05-18 03:19:10'),
+(21,'FISH21','Halibut','Fresh halibut for grilling or poaching.','Y',1,1,'2024-05-18 03:19:10',2,'2024-05-18 03:19:10'),
+(22,'FISH22','Catfish','Fresh catfish for frying or stewing.','Y',1,2,'2024-05-18 03:19:10',3,'2024-05-18 03:19:10'),
+(23,'FISH23','Mahi Mahi','Fresh mahi-mahi for tropical cuisine.','Y',1,3,'2024-05-18 03:19:10',4,'2024-05-18 03:19:10'),
+(24,'FISH24','Red Snapper','Fresh red snapper for seafood curry.','Y',1,4,'2024-05-18 03:19:10',1,'2024-05-18 03:19:10'),
+(25,'FISH25','Sea Bass','Fresh sea bass for elegant dinners.','Y',1,1,'2024-05-18 03:19:10',2,'2024-05-18 03:19:10'),
+(26,'FISH26','Yellowtail','Fresh yellowtail for sushi rolls.','Y',1,2,'2024-05-18 03:19:10',3,'2024-05-18 03:19:10'),
+(27,'FISH27','Rockfish','Fresh rockfish for grilling or broiling.','Y',1,3,'2024-05-18 03:19:10',4,'2024-05-18 03:19:10'),
+(28,'FISH28','Swordfish','Fresh swordfish for hearty steaks.','Y',1,4,'2024-05-18 03:19:10',1,'2024-05-18 03:19:10'),
+(29,'FISH29','Tilapia Fillet','Fresh tilapia fillet for baking or grilling.','Y',1,1,'2024-05-18 03:19:10',2,'2024-05-18 03:19:10'),
+(30,'FISH30','Salmon Fillet','Fresh salmon fillet for pan-searing.','Y',1,2,'2024-05-18 03:19:10',3,'2024-05-18 03:19:10'),
+(31,'FISH31','Shrimp Paste','Homemade shrimp paste for cooking.','Y',1,3,'2024-05-18 03:19:10',4,'2024-05-18 03:19:10'),
+(32,'FISH32','Fish Balls','Handmade fish balls for snacks.','Y',1,4,'2024-05-18 03:19:10',1,'2024-05-18 03:19:10'),
+(33,'FISH33','Fish Crackers','Crispy fish crackers for dipping.','Y',1,1,'2024-05-18 03:19:10',2,'2024-05-18 03:19:10'),
+(34,'FISH34','Fish Sauce','Traditional fish sauce for seasoning.','Y',1,2,'2024-05-18 03:19:10',3,'2024-05-18 03:19:10'),
+(35,'FISH35','Fish Stock','Homemade fish stock for soups.','Y',1,3,'2024-05-18 03:19:10',4,'2024-05-18 03:19:10'),
+(36,'FISH36','Fish Roe','Fresh fish roe for sushi toppings.','Y',1,4,'2024-05-18 03:19:10',1,'2024-05-18 03:19:10');
+/*!40000 ALTER TABLE `raw_item` ENABLE KEYS */;
+
+--
+-- Table structure for table `supplier`
+--
+
+DROP TABLE IF EXISTS `supplier`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `supplier` (
+  `supplier_id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(30) NOT NULL,
+  `contact_person` varchar(120) NOT NULL,
+  `contact_address` varchar(200) NOT NULL,
+  `tin` varchar(15) DEFAULT NULL,
+  `email` varchar(50) NOT NULL,
+  `contact_number` varchar(15) NOT NULL,
+  `leadtime` varchar(20) NOT NULL,
+  `payment_terms` varchar(30) NOT NULL,
+  `status` tinyint(4) NOT NULL,
+  `created_by` tinyint(3) unsigned NOT NULL,
+  `created_date` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_by` tinyint(3) unsigned NOT NULL,
+  `updated_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`supplier_id`),
+  KEY `created_by` (`created_by`),
+  KEY `updated_by` (`updated_by`),
+  CONSTRAINT `supplier_ibfk_1` FOREIGN KEY (`created_by`) REFERENCES `system_user` (`user_id`),
+  CONSTRAINT `supplier_ibfk_2` FOREIGN KEY (`updated_by`) REFERENCES `system_user` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `supplier`
+--
+
+/*!40000 ALTER TABLE `supplier` DISABLE KEYS */;
+INSERT INTO `supplier` VALUES
+(1,'Food Sea Inc.','Lovely Golo','324 Cavite, Manila','123-456-789-000','info@foodseainc.com','+639123456789','1 week','Net 30',1,1,'2024-05-17 13:13:36',1,'2024-05-17 13:13:36'),
+(2,'Sweet Delicacy Resources','Ria Lopez','234 Baliwag, Bulacan','987-654-321-000','sales@sweetdelicacy.com','+6394746364738','2 weeks','Net 60',1,1,'2024-05-17 13:13:36',1,'2024-05-17 13:13:36'),
+(3,'Sea Water Fish.','Bob Boboy','990 Pascual, Antique','456-789-123-000','pangsea@seawaterfish.com.ph','+639454466234','3 days','COD',0,1,'2024-05-17 13:13:36',1,'2024-05-17 13:18:32');
+/*!40000 ALTER TABLE `supplier` ENABLE KEYS */;
+
+--
+-- Table structure for table `system_user`
+--
+
+DROP TABLE IF EXISTS `system_user`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `system_user` (
+  `user_id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
+  `type` varchar(1) DEFAULT NULL,
+  `reference_id` tinyint(4) DEFAULT NULL,
+  `code` varchar(20) NOT NULL,
+  `password` varchar(20) NOT NULL,
+  `last_login_date` timestamp NOT NULL,
+  `max_attempts` tinyint(4) NOT NULL,
+  `status` tinyint(4) NOT NULL,
+  `created_by` tinyint(4) NOT NULL,
+  `created_date` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_by` tinyint(4) NOT NULL,
+  `updated_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `system_user`
+--
+
+DROP TABLE IF EXISTS `customer`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `customer` (
+  `customer_id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
+  `branch_id` tinyint(3) unsigned NOT NULL,
+  `name` varchar(30) NOT NULL,
+  `gender` varchar(1) NOT NULL,
+  `email` varchar(50) NOT NULL,
+  `contact_number` varchar(15) NOT NULL,
+  `house_number` varchar(10) NOT NULL,
+  `street` varchar(20) NOT NULL,
+  `barangay` varchar(20) NOT NULL,
+  `city` varchar(20) NOT NULL,
+  `province` varchar(20) NOT NULL,
+  `country` varchar(20) NOT NULL,
+  `zipcode` smallint(4) NOT NULL,
+  `created_by` tinyint(3) unsigned NOT NULL,
+  `created_date` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_by` tinyint(3) unsigned NOT NULL,
+  `updated_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`customer_id`),
+  KEY `store_id` (`store_id`),
+  KEY `created_by` (`created_by`),
+  KEY `updated_by` (`updated_by`),
+  CONSTRAINT `customer_ibfk_1` FOREIGN KEY (`store_id`) REFERENCES `store` (`store_id`),
+  CONSTRAINT `customer_ibfk_2` FOREIGN KEY (`created_by`) REFERENCES `system_user` (`user_id`),
+  CONSTRAINT `customer_ibfk_3` FOREIGN KEY (`updated_by`) REFERENCES `system_user` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `customer`
+--
+
+--
+-- Dumping routines for database 'techtribe'
+--
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2024-05-18 14:47:11
